@@ -1,0 +1,154 @@
+import random
+
+health = 100
+energy = 100
+food = 20
+wood = 0
+
+dam_strength = 0
+dam_height = 0
+
+day = 1
+season = "spring"
+
+alive = True
+
+print("beaver survival")
+print ("Build a strong dam and survive a full year!")
+print()
+
+def update_season(day):
+    if day <= 30:
+        return "Spring"
+    elif day <= 60:
+        return "Summer"
+    elif day<=90:
+        return "Autumn"
+    else:
+        return "Winter"
+while alive and day<=120:
+    
+    season=update_season(day)
+    
+    print("\n"+"="*50)
+    print(f"Day {day}, Season: {season}")
+    print("="*50)
+    
+    print(f"Health:{health}")
+    print(f"Energy:{energy}")
+    print(f"Food Storage:{food}")
+    print(f"Wood:{wood}")
+    print(f"Dam Strength{dam_strength}")
+    print(f"Dam Height:{dam_height}")
+    
+    print("\nActions")
+    print("1. Gather Wood")
+    print("2. Gather Food")
+    print("3. Build Dam")
+    print("4. Reinforce Dam")
+    print("5. Rest")
+    print("6. Check River")
+    print("7. Quit")
+    
+    choice=input("\nChoose action: ")
+    
+    if choice=="1":
+        collected=random.randint(4,12)
+        
+        if season=="Winter":
+            collected//=2
+        wood+=collected
+        energy -=15
+        print(f"You collected{collected} wood.") 
+    elif choice=="2":
+        berries=random.randint(3,10)
+        if season=="Winter":
+            berries=random.randint(0,2)
+        food+=berries
+        energy-=10
+        
+        print(f"You collected{berries} food.")
+    elif choice>=10:
+        if wood>=10:
+            wood-=10
+            
+            increase=random.randint(2,5)
+            dam_height+=increase
+            dam_strength+=increase*2
+            energy-=20
+            print("You added to the dam.")
+            print(f"Height +{increase}")
+        else:
+            print("Not enough wood.")
+    elif choice=="5":
+        energy+=30
+        if energy>100:
+            energy=100
+        print("You rested.")
+    elif choice=="6":
+        river=random.randint(1,100)
+        if river<30:
+            print("River flow is calm.")
+        elif river<70:
+            print("River flow is normal.")
+        else:
+            print("River flow is strong.")
+    elif choice=="7":
+        break
+    else:
+        continue
+    food-=2
+    if food<0:
+        health-=5
+        food=0
+        print("YOU ARE STARVING!")
+    if random.randint(1,20)==1:
+        print("Wolf attack!")
+        
+        damage=random.randint(5,15)
+        health-=damage
+        print(f"You lost{damage} health.")
+    if random.randint(1,15)==1:
+        flood=random.randint(5,25)
+        print("FLOOD!!")
+        if dam_strength>=flood:
+            dam_strength-=flood//2
+            print("Your dam survived.")
+        else:
+            damage=flood-dam_strength
+            dam_strength-=flood//2
+            print("Your dam was damaged!")
+    if season=="Winter":
+        energy-=5
+        if food<10:
+            health-=3
+    if energy<=0:
+        energy=0
+        health-=10
+        print("You collapsed from exhaustion.")
+    if health<=0:
+        alive=False
+    day+=1
+print("\n"+"="*50)
+if health<=0:
+    print("Your beaver died!!")
+elif day>120:
+    print("You survived and entire!")
+    print(f"Final Dam Height:{dam_height}")
+    print(f"Final Dam Strength:{dam_strength}")
+    if dam_height>=50:
+        print("LEGENDARY ENGINEER BEAVER!")
+    elif dam_height>=30:
+        print("Master Dam Builder!")
+    else:
+        print("Young Beaver Survivor!")
+else:
+    print("Game ended early")
+    
+    
+    
+    
+          
+
+    
+    
